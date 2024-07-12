@@ -191,6 +191,7 @@ module.exports = {
   dem: router.dem ? [{ id: router.dem, url: dem[router.dem] }] : null, // currently only one DEM file is used
   dataToolImage: `hsldevcom/otp-data-tools:${process.env.TOOLS_TAG || 'v3'}`,
   dataDir: `${process.cwd()}/data`,
+  storageDir: `${process.cwd()}/storage`,
   constants,
   passOBAfilter
 }
