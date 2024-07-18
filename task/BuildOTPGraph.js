@@ -14,11 +14,10 @@ const buildGraph = function (router) {
     }
   }
   return new Promise((resolve, reject) => {
-    const version = execSync(`docker pull hsldevcom/opentripplanner:${graphBuildTag};docker run --rm --entrypoint /bin/bash hsldevcom/opentripplanner:${graphBuildTag}  -c "java -jar otp-shaded.jar --version"`)
+    const version = execSync(`docker pull hsldevcom/opentripplanner:${graphBuildTag};docker run --rm hsldevcom/opentripplanner:${graphBuildTag} --version`)
     const commit = version.toString().match(/commit: ([0-9a-f]+)/)[1]
 
-    const buildGraph = exec(`docker run -v ${dataDir}/build:/opt/opentripplanner/graphs --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/opt/opentripplanner/logback-include-extensions.xml -e ROUTER_NAME=${process.env.ROUTER_NAME} --rm --entrypoint /bin/bash hsldevcom/opentripplanner:${graphBuildTag}  -c "java ${JAVA_OPTS} -jar otp-shaded.jar --build --save ./graphs/${router.id}"`, { maxBuffer: constants.BUFFER_SIZE })
-    // const buildGraph = exec('ls -la');
+    const buildGraph = exec(`docker run -e JAVA_OPTS=${JAVA_OPTS} -v ${dataDir}/build:/var/opentripplanner --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/var/opentripplanner/logback-include-extensions.xml hsldevcom/opentripplanner:${graphBuildTag} --build --save`, { maxBuffer: constants.BUFFER_SIZE })
     const buildLog = fs.openSync(`${dataDir}/build/${router.id}/build.log`, 'w+')
 
     buildGraph.stdout.on('data', function (data) {

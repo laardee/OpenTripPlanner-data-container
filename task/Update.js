@@ -7,7 +7,7 @@ const gulp = require('gulp')
 const { promisify } = require('util')
 const { execFileSync } = require('child_process')
 const fs = require('fs')
-const { postSlackMessage, updateSlackMessage } = require('../util')
+const { postSlackMessage, updateSlackMessage, patchDockerfile, patchLighttpdConf } = require('../util')
 require('../gulpfile')
 const { router } = require('../config')
 
@@ -53,13 +53,10 @@ async function update () {
     process.stdout.write('Build routing graph\n')
     await start('router:buildGraph')
 
-    process.stdout.write('Build docker image\n')
-    execFileSync('./build.sh', [name], { stdio: [0, 1, 2] })
-
     if (process.env.SKIPPED_SITES === 'all') {
       process.stdout.write('Skipping all tests')
     } else {
-      process.stdout.write('Test docker image\n')
+      process.stdout.write('Test the newly built graph with OTPQA\n')
       execFileSync('./test.sh', [], { stdio: [0, 1, 2] })
     }
 
@@ -86,8 +83,20 @@ async function update () {
       process.stdout.write('Rebuild docker image\n')
       execFileSync('./build.sh', [name])
     }
-    process.stdout.write('Deploy docker image\n')
-    execFileSync('./deploy.sh', [name], { stdio: [0, 1, 2] })
+
+    global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${Date.toISOString()}}`
+
+    process.stdout.write('Uploading data to storage\n')
+    await start('router:store')
+
+    process.stdout.write(`Patch new storage location ${storageDirName} to configs\n`)
+    patchDockerfile(process.env.OTP_TAG || 'v2', storageDirName)
+    await start('server:prepare')
+    patchLighttpdConf(storageDirName)
+
+    process.stdout.write('Deploy docker images\n')
+    execFileSync('./otp-data-container/deploy.sh', [name], { stdio: [0, 1, 2] })
+    execFileSync('./opentripplanner/deploy-otp.sh', [name], { stdio: [0, 1, 2] })
 
     if (global.hasFailures) {
       updateSlackMessage(`${name} data updated, but partially falling back to older data :boom:`)

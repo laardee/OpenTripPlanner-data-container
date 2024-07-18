@@ -1,9 +1,6 @@
 #!/bin/bash
 set +e
 
-# note that container linking below does not work in mac OSX.
-# use docker --link parameter to attach OTPQA to running OTP container
-
 # set defaults
 ORG=${ORG:-hsldevcom}
 JAVA_OPTS=${JAVA_OPTS:--Xmx12g}
@@ -12,30 +9,29 @@ OTP_TAG=${OTP_TAG:-v2}
 TOOLS_TAG=${TOOLS_TAG:-v3}
 
 # set useful variables
-DOCKER_IMAGE=$ORG/opentripplanner-data-container-$ROUTER_NAME:test
 TOOL_IMAGE=$ORG/otp-data-tools:$TOOLS_TAG
 
-DATACONT=otp-data-$ROUTER_NAME
 OTPCONT=otp-$ROUTER_NAME
 TOOLCONT=otp-data-tools
 
 function shutdown() {
   echo shutting down
-  docker stop $DATACONT
   docker stop $OTPCONT
   docker rm $TOOLCONT &> /dev/null
 }
 
-echo -e "\n##### Testing $DOCKER_IMAGE #####\n"
-
-echo Starting data container...
-docker run --rm --name $DATACONT $DOCKER_IMAGE &
-sleep 10
+echo -e "\n##### Testing new data #####\n"
 
 echo Starting otp...
 
-docker run --rm --name $OTPCONT -e ROUTER_NAME=$ROUTER_NAME -e JAVA_OPTS="$JAVA_OPTS" -e ROUTER_DATA_CONTAINER_URL=http://otp-data:8080/ --link $DATACONT:otp-data --mount type=bind,source=$(pwd)/logback-include-extensions.xml,target=/opt/opentripplanner/logback-include-extensions.xml $ORG/opentripplanner:$OTP_TAG &
-sleep 10
+docker --entrypoint 'java $JAVA_OPTS -cp @/app/jib-classpath-file @/app/jib-main-class-file /var/otp/$ROUTER_NAME --load --serve' \
+    run --rm --name $OTPCONT -e ROUTER_NAME=$ROUTER_NAME -e JAVA_OPTS="$JAVA_OPTS" \
+    --mount type=bind,source=$(pwd)/logback-include-extensions.xml,target=/var/otp/$ROUTER_NAME/logback-include-extensions.xml \
+    --mount type=bind,source=$(pwd)/graph.obj,target=/var/otp/$ROUTER_NAME/graph.obj \
+    --mount type=bind,source=$(pwd)/otp-config.json,target=/var/otp/$ROUTER_NAME/otp-config.json \
+    --mount type=bind,source=$(pwd)/router-config.json,target=/var/otp/$ROUTER_NAME/router-config.json \
+    $ORG/opentripplanner:$OTP_TAG &
+    sleep 10
 
 echo Getting otp ip..
 timeout=$(($(date +%s) + 480))

@@ -135,6 +135,23 @@ const parseId = function (gtfsFile) {
   return fileName.substring(0, fileName.indexOf('-gtfs'))
 }
 
+async function patchDockerfile(otpTag, graphDir) {
+  const dockerFile = 'Dockerfile'
+  const data = await fs.readFile(dockerFile, 'utf8');
+  const patchedData = data
+      .replace(/<OTP_TAG>/g, otpTag)
+      .replace(/<OTP_GRAPH_DIR>/g, graphDir)
+  await fs.writeFile(dockerFile, patchedData,'utf8');
+}
+
+async function patchLighttpdConf(graphDir) {
+  const confFile = 'otp-data-container/lighttpd.conf'
+  const data = await fs.readFile(confFile, 'utf8');
+  const patchedData = data
+      .replace(/<OTP_GRAPH_DIR>/g, graphDir)
+  await fs.writeFile(confFile, patchedData,'utf8');
+}
+
 module.exports = {
   zipDir: (zipFile, dir, cb) => {
     zipWithGlob(zipFile, [`${dir}/*`], undefined, cb)
@@ -143,5 +160,7 @@ module.exports = {
   postSlackMessage,
   updateSlackMessage,
   otpMatching,
-  parseId
+  parseId,
+  patchDockerfile,
+  patchLighttpdConf
 }
