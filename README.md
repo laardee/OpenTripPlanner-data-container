@@ -1,9 +1,9 @@
-# Build process for OpenTripPlanner-data-container
+# Build process for OpenTripPlanner-data-server and router specific OpenTripPlanner images
 
 [![Build](https://github.com/hsldevcom/OpenTripPlanner-data-container/workflows/Process%20v3%20push%20or%20pr/badge.svg?branch=v3)](https://github.com/HSLdevcom/OpenTripPlanner-data-container/actions)
 
 ## This project:
-Contains tools for fetching, building and deploying fresh otp data-containers
+Contains tools for fetching, building and deploying fresh opentripplanner data server and opentripplanner images
 for consumption by Digitransit maintained OTP version 2.x instances.
 
 ## Main components
@@ -33,10 +33,10 @@ It is possible to change the behaviour of the data builder by defining environme
 * "ROUTER_NAME" defines which data container will be built and deployed.
 * "DOCKER_USER" defines username for authenticating to docker hub.
 * "DOCKER_AUTH" defines password for authenticating to docker hub.
-* (Optional, default v3 and tag based on date) "DOCKER_TAG" defines what will be the updated docker tag of the data container images in the remote container registry.
+* (Optional, default v3 and tag based on date) "DOCKER_TAG" defines what will be the updated docker tag of the data server images in the remote container registry.
 * (Optional, default hsldevcom) "ORG" defines what organization images belong to in the remote container registry.
-* (Optional, default v3) "SEED_TAG" defines what version of data container should be used for seeding.
-* (Optional, default v2) "OTP_TAG" defines what version of OTP is used for testing and building graphs.
+* (Optional, default v3) "SEED_TAG" defines what version of the data storage should be used for seeding.
+* (Optional, default v2) "OTP_TAG" defines what version of OTP is used for testing, building graphs and deploying a new OTP image (postfixed with router name).
 * (Optional, default v3) "TOOLS_TAG" defines what version of otp-data-tools image is used for testing.
 * (Optional, default dev) "BUILDER_TYPE" used as a postfix to slack bot name
 * (Optional) "SLACK_CHANNEL_ID" defines to which slack channel the messages are sent to
@@ -61,7 +61,7 @@ Seed data can be retrieved with a single gulp command:
 
 1. `seed`
 
-Downloads previous data container (env variable SEED_TAG can be used to customize which tag is pulled)
+Downloads previous data from storage (env variable SEED_TAG can be used to customize which storage location is used)
 and extracts osm, dem and gtfs data from there and places it in 'data/seed' and 'data/ready' directories.
 Old data acts as backup in case fetching/validating new data fails.
 
@@ -91,31 +91,41 @@ Building the router from available (seeded or downloaded and processed) data:
 
 7. `router:buildGraph`
 
-Prebuilds graph with either current v3 version or user defined version (with env variable OTP_TAG) of OTP and creates zip files
-ready for building the otp-data container.
+Builds a new graph with all the new data sets (and maybe seeded data sets if there were issues with new data).
 
-8. `build.sh`
-
-Builds a data container 'otp-data-container-$ROUTER_NAME:test'
-
-9. `test.sh`
+8. `test.sh`
 
 Runs routing quality test bench defined in the repository 'hsldevcom/OTPQA'. OTPQA test sets are associated with GTFS packages.
 If there are quality regressions, a comma separated list of failed GTFS feed identifiers is is written to local file 'failed_feeds.txt'.
 
 The final step is data container deployment:
 
-10. `deploy.sh`
+9. `router:store`
 
-Tags the test image using 'DOCKER_TAG' env variable (default 'v3') and pushes the image to Dockerhub.
+Stores the new data in storage (which can be a mounted storage volume).
+
+10. `deploy:prepare`
+
+Patches the data server configuration and the Dockerfile for OpenTripPlanner so that the correct storage location is used.
+
+11. `deploy.sh`
+
+Deploys new opentripplanner-data-server image with 'DOCKER_TAG' env variable (default 'v3') postfixed with the router name and
+pushes the image to Dockerhub.
 
 Normally, when the application is running as a container, the script 'index.js' is run to execute all steps 1 - 10 described above.
-Execution time can be specified using CRON env variable; without it the script is run immediately.
-The end result of the build is a data container uploaded into dockerhub.
-Digitransit-deployer detects the changes and restarts OTP instances, so that new data becomes in use.
+The end result of the build is a data server image uploaded into dockerhub.
 
-Each data container image runs a http server listening to port 8080, serving both a data bundle required for building a graph,
-and a pre-built graph. For example, in HSL case: http://localhost:8080/router-hsl.zip and graph-hsl-$OTPVERSION.zip
+Each data server image runs a http server listening to port 8080, serving both a data bundle required for building a graph,
+and a pre-built graph. For example, in HSL case: http://localhost:8080/router-hsl.zip and graph-hsl-$OTPVERSION.zip. The image
+does not include the data, the data needs to be mounted while running the container.
+
+12. `deploy-otp.sh`
+
+Tags opentripplanner image with using 'OTP_TAG' env variable (default 'v3') postfixed with the router name and pushes the image to Dockerhub.
+
+This new opentripplanner image will automatically use the graph and configuration from the storage location where the build's end result
+was stored at.
 
 ### otp-data-tools
 
