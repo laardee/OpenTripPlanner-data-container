@@ -79,12 +79,11 @@ async function update () {
       // rebuild the graph
       process.stdout.write('Rebuild graph using fallback data\n')
       await start('router:buildGraph')
-
-      process.stdout.write('Rebuild docker image\n')
-      execFileSync('./build.sh', [name])
     }
 
-    global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${Date.toISOString()}}`
+    const date = Date.toISOString()
+
+    global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${date}}`
 
     process.stdout.write('Uploading data to storage\n')
     await start('router:store')
@@ -95,8 +94,8 @@ async function update () {
     patchLighttpdConf(storageDirName)
 
     process.stdout.write('Deploy docker images\n')
-    execFileSync('./otp-data-container/deploy.sh', [name], { stdio: [0, 1, 2] })
-    execFileSync('./opentripplanner/deploy-otp.sh', [name], { stdio: [0, 1, 2] })
+    execFileSync('./otp-data-container/deploy.sh', [date], { stdio: [0, 1, 2] })
+    execFileSync('./opentripplanner/deploy-otp.sh', [date], { stdio: [0, 1, 2] })
 
     if (global.hasFailures) {
       updateSlackMessage(`${name} data updated, but partially falling back to older data :boom:`)

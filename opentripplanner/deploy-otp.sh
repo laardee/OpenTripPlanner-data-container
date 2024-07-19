@@ -4,7 +4,7 @@
 set -e
 
 ROUTER_NAME=${ROUTER_NAME:-hsl}
-DATE=$(date +"%Y-%m-%dT%H.%M.%S")
+DATE=$1
 
 ORG=${ORG:-hsldevcom}
 DOCKER_TAG=${OTP_TAG:-v2}-$ROUTER_NAME
