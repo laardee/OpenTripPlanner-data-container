@@ -168,7 +168,7 @@ gulp.task('seed:cleanup', () => del([seedSourceDir, `${config.dataDir}/*.zip`]))
  * continuous flow of data into production when one or more updated data files
  * are broken. The data is loaded from a storage that should persist between builds.
  */
-gulp.task('seed', gulp.series(() => seed(config.storageDir, config.dataDir, config.router.id, process.env.DOCKER_TAG), 'dem:seed', 'osm:seed', 'gtfs:seed', 'seed:cleanup'))
+gulp.task('seed', gulp.series(() => seed(config.storageDir, config.dataDir, config.router.id, process.env.SEED_TAG), 'dem:seed', 'osm:seed', 'gtfs:seed', 'seed:cleanup'))
 
 gulp.task('router:del', () => del(`${config.dataDir}/build`))
 
