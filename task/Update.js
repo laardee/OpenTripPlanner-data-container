@@ -7,7 +7,7 @@ const gulp = require('gulp')
 const { promisify } = require('util')
 const { execFileSync } = require('child_process')
 const fs = require('fs')
-const { postSlackMessage, updateSlackMessage, patchDockerfile, patchLighttpdConf } = require('../util')
+const { postSlackMessage, updateSlackMessage } = require('../util')
 require('../gulpfile')
 const { router } = require('../config')
 
@@ -89,9 +89,7 @@ async function update () {
     await start('router:store')
 
     process.stdout.write(`Patch new storage location ${storageDirName} to configs\n`)
-    patchDockerfile(process.env.OTP_TAG || 'v2', storageDirName)
-    await start('server:prepare')
-    patchLighttpdConf(storageDirName)
+    await start('deploy:prepare')
 
     process.stdout.write('Deploy docker images\n')
     execFileSync('./otp-data-container/deploy.sh', [date], { stdio: [0, 1, 2] })

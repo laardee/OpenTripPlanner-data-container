@@ -17,6 +17,7 @@ const { buildOTPGraphTask } = require('./task/BuildOTPGraph')
 const { renameGTFSFile } = require('./task/GTFSRename')
 const { replaceGTFSFilesTask } = require('./task/GTFSReplace')
 const { extractFromZip, addToZip } = require('./task/ZipTask')
+const patchDeploymentFiles = require('./task/PatchDeploymentFiles')
 
 const seedSourceDir = `${config.dataDir}/router-${config.router.id}` // e.g. data/router-hsl
 
@@ -179,3 +180,5 @@ gulp.task('router:buildGraph', gulp.series('router:copy', () => buildOTPGraphTas
 gulp.task('router:store', () =>
   gulp.src(`${config.dataDir}/build/${config.router.id}`).pipe(gulp.dest(`${config.storageDir}/${global.storageDirName}`))
 )
+
+gulp.task('deploy:prepare', () => patchDeploymentFiles())
