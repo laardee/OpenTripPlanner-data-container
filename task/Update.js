@@ -81,7 +81,7 @@ async function update () {
       await start('router:buildGraph')
     }
 
-    const date = Date.toISOString()
+    const date = new Date().toISOString()
 
     global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${date}}`
 
