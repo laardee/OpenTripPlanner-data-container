@@ -24,13 +24,12 @@ echo -e "\n##### Testing new data #####\n"
 
 echo Starting otp...
 
-docker --entrypoint 'java $JAVA_OPTS -cp @/app/jib-classpath-file @/app/jib-main-class-file /var/otp/$ROUTER_NAME --load --serve' \
-    run --rm --name $OTPCONT -e ROUTER_NAME=$ROUTER_NAME -e JAVA_OPTS="$JAVA_OPTS" \
-    --mount type=bind,source=$(pwd)/logback-include-extensions.xml,target=/var/otp/$ROUTER_NAME/logback-include-extensions.xml \
-    --mount type=bind,source=$(pwd)/graph.obj,target=/var/otp/$ROUTER_NAME/graph.obj \
-    --mount type=bind,source=$(pwd)/otp-config.json,target=/var/otp/$ROUTER_NAME/otp-config.json \
-    --mount type=bind,source=$(pwd)/router-config.json,target=/var/otp/$ROUTER_NAME/router-config.json \
-    $ORG/opentripplanner:$OTP_TAG &
+docker run --rm --name $OTPCONT -e JAVA_OPTS="$JAVA_OPTS" \
+    --mount type=bind,source=$(pwd)/logback-include-extensions.xml,target=/logback-include-extensions.xml \
+    --mount type=bind,source=$(pwd)/data/build/$ROUTER_NAME/graph.obj,target=/var/opentripplanner/graph.obj \
+    --mount type=bind,source=$(pwd)/data/build/$ROUTER_NAME/otp-config.json,target=/var/opentripplanner/otp-config.json \
+    --mount type=bind,source=$(pwd)/data/build/$ROUTER_NAME/router-config.json,target=/var/opentripplanner/router-config.json \
+    $ORG/opentripplanner:$OTP_TAG --load --serve &
     sleep 10
 
 echo Getting otp ip..
