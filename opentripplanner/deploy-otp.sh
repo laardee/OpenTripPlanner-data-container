@@ -22,7 +22,8 @@ docker rmi --force $DOCKER_DATE_IMAGE &> /dev/null
 echo "Building router's opentripplanner image..."
 # Local file context is not needed
 # https://docs.docker.com/reference/cli/docker/image/build/#build-with--
-docker build -t $DOCKER_IMAGE_TAGGED - < Dockerfile
+cd data/build/$ROUTER_NAME
+docker build -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
 
 echo "*** Pushing $DOCKER_IMAGE_TAGGED"
 docker push $DOCKER_IMAGE_TAGGED
