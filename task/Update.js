@@ -84,7 +84,7 @@ async function update () {
     // Docker tags don't work with ':' and file names are also prettier without them. We also need to
     // remove milliseconds because they are not relevant and make converting string back to ISO format
     // more difficult.
-    const date = new Date().toISOString().slice(0, -4).concat('Z').replace(/:/g, '.')
+    const date = new Date().toISOString().slice(0, -5).concat('Z').replace(/:/g, '.')
 
     global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${date}`
 
