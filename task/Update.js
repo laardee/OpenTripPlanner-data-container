@@ -81,9 +81,12 @@ async function update () {
       await start('router:buildGraph')
     }
 
-    const date = new Date().toISOString()
+    // Docker tags don't work with ':' and file names are also prettier without them. We also need to
+    // remove milliseconds because they are not relevant and make converting string back to ISO format
+    // more difficult.
+    const date = new Date().toISOString().slice(0, -4).concat('Z').replace(/:/g, '.')
 
-    global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${date}}`
+    global.storageDirName = `${name}/${process.env.DOCKER_TAG}/${date}`
 
     process.stdout.write('Uploading data to storage\n')
     await start('router:store')
@@ -92,7 +95,7 @@ async function update () {
     await start('deploy:prepare')
 
     process.stdout.write('Deploy docker images\n')
-    execFileSync('./otp-data-container/deploy.sh', [date], { stdio: [0, 1, 2] })
+    execFileSync('./otp-data-server/deploy.sh', [date], { stdio: [0, 1, 2] })
     execFileSync('./opentripplanner/deploy-otp.sh', [date], { stdio: [0, 1, 2] })
 
     if (global.hasFailures) {

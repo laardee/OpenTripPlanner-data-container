@@ -7,7 +7,9 @@ function findLatestZip (sourceDir, routerId, tag) {
   let latestDirName
   let latestDate = null
   fs.readdirSync(basePath).forEach(file => {
-    const date = new Date(file)
+    // Directory names follow ISO 8601 format without milliseconds and
+    // with ':' replaced with '.'.
+    const date = new Date(file.replace(/./g, ':'))
     if (latestDate == null || date > latestDate) {
       latestDate = date
       latestDirName = file
