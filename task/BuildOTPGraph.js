@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { exec, execSync } = require('child_process')
+const del = require('del')
 const { zipWithGlob, otpMatching, postSlackMessage } = require('../util')
 const { dataDir, constants } = require('../config.js')
 const graphBuildTag = process.env.OTP_TAG || 'v2'
@@ -98,5 +99,6 @@ module.exports = {
   buildOTPGraphTask: router => buildGraph(router)
     .then(resp => packData(resp.commit, resp.router))
     .then(() => otpMatching(`${dataDir}/build/${router.id}`))
+    .then(() => del(`${dataDir}/build/${router.id}/taggedStops.log`))
     .then(() => process.stdout.write('Graph build SUCCESS\n'))
 }
