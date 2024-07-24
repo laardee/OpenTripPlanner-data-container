@@ -17,6 +17,7 @@ const start = promisify((task, cb) => gulp.series(task)(cb))
 
 async function update () {
   if (!process.env.NOSEED) {
+    process.stdout.write('Starting seeding\n')
     await start('seed')
     process.stdout.write('Seeded\n')
   }
