@@ -128,6 +128,10 @@ Tags opentripplanner image with using 'OTP_TAG' env variable (default 'v3') post
 This new opentripplanner image will automatically use the graph and configuration from the storage location where the build's end result
 was stored at.
 
+13. `storage:cleanup`
+
+Keeps 10 latest versions of the data in storage and removes the rest.
+
 ### otp-data-tools
 
 Contains tools for gtfs manipulation, such as One Bus Away gtfs filter. OBA filter tool version 1.3.9 is embedded into this repository.
