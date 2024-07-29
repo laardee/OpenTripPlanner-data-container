@@ -92,7 +92,7 @@ async function update () {
     process.stdout.write('Uploading data to storage\n')
     await start('router:store')
 
-    process.stdout.write(`Patch new storage location ${storageDirName} to configs\n`)
+    process.stdout.write(`Patch new storage location ${global.storageDirName} to configs\n`)
     await start('deploy:prepare')
 
     process.stdout.write('Deploy docker images\n')

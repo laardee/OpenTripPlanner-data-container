@@ -19,23 +19,22 @@ function deleteInvalidVersions (basePath) {
     }
     const files = fs.readdirSync(filePath)
     if (files.length === 0) {
-      deletionPromises.push(del(filePath));
+      deletionPromises.push(del(filePath))
     }
   })
   return deletionPromises
 }
 
-
 function sortByDate (firstFile, secondFile) {
   const firstDate = dirNameToDate(firstFile)
   const secondDate = dirNameToDate(secondFile)
   if (firstDate < secondDate) {
-    return -1;
+    return -1
   }
   if (firstDate > secondDate) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 /*

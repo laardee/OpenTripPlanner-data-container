@@ -144,7 +144,6 @@ function dirNameToDate (dirName) {
   return date instanceof Date && !isNaN(date) ? date : null
 }
 
-
 module.exports = {
   zipDir: (zipFile, dir, cb) => {
     zipWithGlob(zipFile, [`${dir}/*`], undefined, cb)

@@ -3,7 +3,7 @@ const { extractAllFiles } = require('./ZipTask')
 const { postSlackMessage, dirNameToDate } = require('../util')
 
 function findLatestZip (sourceDir, routerId, tag) {
-  const basePath = `${sourceDir}/${routerId}/${tag}`;
+  const basePath = `${sourceDir}/${routerId}/${tag}`
   let latestDirName
   let latestDate = null
   fs.readdirSync(basePath).forEach(file => {

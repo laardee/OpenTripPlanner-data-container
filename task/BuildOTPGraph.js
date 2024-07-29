@@ -19,7 +19,7 @@ const buildGraph = function (router) {
     const version = execSync(`docker pull ${dockerImage};docker run --rm ${dockerImage} --version`)
     const commit = version.toString().match(/commit: ([0-9a-f]+)/)[1]
 
-    const command = `docker run -v ${dataDir}/build/${router.id}:/var/opentripplanner --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/logback-include-extensions.xml ${dockerImage} --build --save`
+    const command = `docker run -e JAVA_OPTS="${JAVA_OPTS}" -v ${dataDir}/build/${router.id}:/var/opentripplanner --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/logback-include-extensions.xml ${dockerImage} --build --save`
     const buildGraph = exec(command, { maxBuffer: constants.BUFFER_SIZE })
     const buildLog = fs.openSync(`${dataDir}/build/${router.id}/build.log`, 'w+')
 
