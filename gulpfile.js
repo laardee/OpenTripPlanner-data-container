@@ -18,6 +18,7 @@ const { renameGTFSFile } = require('./task/GTFSRename')
 const { replaceGTFSFilesTask } = require('./task/GTFSReplace')
 const { extractFromZip, addToZip } = require('./task/ZipTask')
 const patchDeploymentFiles = require('./task/PatchDeploymentFiles')
+const storageCleanup = require('./task/StorageCleanup')
 
 const seedSourceDir = `${config.dataDir}/router-${config.router.id}` // e.g. data/router-hsl
 
@@ -182,3 +183,5 @@ gulp.task('router:store', () =>
 )
 
 gulp.task('deploy:prepare', () => patchDeploymentFiles())
+
+gulp.task('storage:cleanup', () => storageCleanup(config.storageDir, config.router.id, process.env.SEED_TAG))
