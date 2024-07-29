@@ -3,7 +3,7 @@ const del = require('del')
 const { dirNameToDate } = require('../util')
 
 /*
- * Removes files which are not directories or directories which are empty.
+ * Removes files which are not directories, directories which are empty or can't be parsed into dates.
  */
 function deleteInvalidVersions (basePath) {
   const deletionPromises = []

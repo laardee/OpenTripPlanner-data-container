@@ -1,5 +1,6 @@
 /*
-Executes gulp tasks which download new data, builds and tests a new graph and deploys a data container containing the results.
+Executes gulp tasks which download new data, builds and tests a new graph, saves it in storage and deploys
+new opentripplanner-data-server and opentripplanner versions that use that data.
 Data errors are detected and tolerated to a certain limit thanks to fallback mechanism to older data.
 Unexpected code execution errors and failures in graph build abort the data loading.
 */

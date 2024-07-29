@@ -30,7 +30,7 @@ download new gtfs data for waltti:
 #### Configuration
 It is possible to change the behaviour of the data builder by defining environment variables.
 
-* "ROUTER_NAME" defines which data container will be built and deployed.
+* "ROUTER_NAME" defines for which router the data gets updated for.
 * "DOCKER_USER" defines username for authenticating to docker hub.
 * "DOCKER_AUTH" defines password for authenticating to docker hub.
 * (Optional, default v3 and tag based on date) "DOCKER_TAG" defines what will be the updated docker tag of the data server images in the remote container registry.
@@ -98,8 +98,6 @@ Builds a new graph with all the new data sets (and maybe seeded data sets if the
 
 Runs routing quality test bench defined in the repository 'hsldevcom/OTPQA'. OTPQA test sets are associated with GTFS packages.
 If there are quality regressions, a comma separated list of failed GTFS feed identifiers is is written to local file 'failed_feeds.txt'.
-
-The final step is data container deployment:
 
 9. `router:store`
 

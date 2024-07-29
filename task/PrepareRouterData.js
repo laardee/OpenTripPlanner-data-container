@@ -14,7 +14,7 @@ function createFile (config, fileName, sourcePath) {
 // It is also possible to add completely new src by defining object with unused id or to remove a src by defining "remove": true
 const extraUpdaters = process.env.EXTRA_UPDATERS !== undefined ? JSON.parse(process.env.EXTRA_UPDATERS) : {}
 
-// Prepares router-config.json data for data container and applies edits/additions made in EXTRA_UPDATERS env var
+// Prepares router-config.json data for opentripplanner and applies edits/additions made in EXTRA_UPDATERS env var
 function createAndProcessRouterConfig (router) {
   process.stdout.write('copying router-config.json...\n')
   const configName = `${router.id}/router-config.json`
@@ -47,7 +47,7 @@ function createAndProcessRouterConfig (router) {
 }
 
 /**
- * Make router data ready for inclusion in data container.
+ * Make router data ready for inclusion in opentripplanner.
  */
 module.exports = function (router) {
   const stream = through.obj()
