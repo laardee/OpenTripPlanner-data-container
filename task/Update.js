@@ -99,8 +99,10 @@ async function update () {
     execFileSync('./otp-data-server/deploy.sh', [date], { stdio: [0, 1, 2] })
     execFileSync('./opentripplanner/deploy-otp.sh', [date], { stdio: [0, 1, 2] })
 
-    process.stdout.write('Remove oldest data versions from storage\n')
-    await start('storage:cleanup')
+    if (!process.env.NOCLEANUP) {
+      process.stdout.write('Remove oldest data versions from storage\n')
+      await start('storage:cleanup')
+    }
 
     if (global.hasFailures) {
       updateSlackMessage(`${name} data updated, but partially falling back to older data :boom:`)
