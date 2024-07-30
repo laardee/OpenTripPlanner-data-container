@@ -1,7 +1,7 @@
 {
   "routingDefaults": {
     "searchWindow": "1h",
-    "transferSlack": 90,
+    "transferSlack": "1m30s",
     "waitReluctance": 0.95,
     "elevatorBoardTime": 60,
     "bicycle": {
@@ -51,9 +51,12 @@
         "HSL:7191A",
         "HSL:7192",
         "HSL:7192T",
+        "HSL:7192KM",
+        "HSL:7192M",
         "HSL:7192V",
         "HSL:7193",
         "HSL:7193V",
+        "HSL:7193VK",
         "HSL:7194V",
         "HSL:7194VK",
         "HSL:7194VT",
@@ -72,10 +75,12 @@
         "HSL:7457",
         "HSL:7457A",
         "HSL:7459",
+        "HSL:7464",
         "HSL:7465",
         "HSL:7465B",
         "HSL:7848",
-        "HSL:7999"
+        "HSL:7999",
+        "HSL:1008X"
       ]
     }
   },
@@ -196,6 +201,24 @@
         "expansionFactor": 0.25
       },
       {
+        "name": "rentalVehicles",
+        "type": "VehicleRentalVehicle",
+        "mapper": "Digitransit",
+        "maxZoom": 20,
+        "minZoom": 5,
+        "cacheMaxSeconds": 43200,
+        "expansionFactor": 0.25
+      },
+      {
+        "name": "realtimeRentalVehicles",
+        "type": "VehicleRentalVehicle",
+        "mapper": "DigitransitRealtime",
+        "maxZoom": 20,
+        "minZoom": 5,
+        "cacheMaxSeconds": 43200,
+        "expansionFactor": 0.25
+      },
+      {
         "name": "vehicleParking",
         "type": "VehicleParking",
         "mapper": "Digitransit",
@@ -240,10 +263,10 @@
       "feedId": "liipi",
       "timeZone": "Europe/Helsinki",
       "facilitiesFrequencySec": 3600,
-      "facilitiesUrl": "http://digitransit-proxy:8080/out/p.hsl.fi/api/v1/facilities.json?limit=-1",
+      "facilitiesUrl": "https://parking.fintraffic.fi/api/v1/facilities.json?limit=-1",
       "utilizationsFrequencySec": 600,
-      "utilizationsUrl": "http://digitransit-proxy:8080/out/p.hsl.fi/api/v1/utilizations.json?limit=-1",
-      "hubsUrl": "http://digitransit-proxy:8080/out/p.hsl.fi/api/v1/hubs.json?limit=-1"
+      "utilizationsUrl": "https://parking.fintraffic.fi/api/v1/utilizations.json?limit=-1",
+      "hubsUrl": "https://parking.fintraffic.fi/api/v1/hubs.json?limit=-1"
     },
     {
       "id": "vantaa-bike-rental",
@@ -273,6 +296,15 @@
         "stop-position",
         "occupancy"
       ]
+    },
+    {
+      "id": "bolt-scooter-rental",
+      "type": "vehicle-rental",
+      "sourceType": "gbfs",
+      "frequency": "30s",
+      "network": "bolt",
+      "url": "https://mds.bolt.eu/gbfs/2/10/gbfs",
+      "geofencingZones": true
     }
   ]
 }
