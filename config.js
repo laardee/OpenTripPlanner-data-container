@@ -89,7 +89,8 @@ const routers = {
       mapSrc('tampereDRT', 'https://ekstrat.tampere.fi/ekstrat/ptdata/tamperefeed_kutsuliikenne.zip'),
       mapSrc('Pori', 'https://tvv.fra1.digitaloceanspaces.com/231.zip', true),
       mapSrc('FUNI', 'https://foligtfs.blob.core.windows.net/routeplanner/gtfs-foli-ff.zip', true),
-      mapSrc('Raasepori', 'https://tvv.fra1.digitaloceanspaces.com/232.zip', true)
+      mapSrc('Raasepori', 'https://tvv.fra1.digitaloceanspaces.com/232.zip', true),
+      // mapSrc('KotkaLautat', 'https://koontikartta.navici.com/tiedostot/gtfs_lautat.zip', true, ['waltti/gtfs-rules/only-kotka-ferries.rule']),
     ],
     osm: ['finland'],
     dem: 'waltti'
@@ -118,7 +119,7 @@ const routers = {
     id: 'kela',
     src: [
       mapSrc('kela', 'https://koontikartta.navici.com/tiedostot/gtfs_kela.zip'),
-      mapSrc('matkahuolto', mhAddress, false, ['kela/gtfs-rules/no-onnibus-mega.rule'], { 'transfers.txt': null }),
+      mapSrc('matkahuolto', mhAddress, false, ['kela/gtfs-rules/matkahuolto.rule'], { 'transfers.txt': null }),
       mapSrc('lansilinjat', 'https://lansilinjat.fi/wp-content/uploads/GTFS-Lansilinjat.zip')
     ],
     osm: ['finland']
