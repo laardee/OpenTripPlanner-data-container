@@ -56,10 +56,6 @@ function deleteOldVersions (sourceDir, routerId, tag) {
   })
 }
 
-/**
- * Unzip latest version of the data for router into destinationDir so it can be used as
- * the basis for the new build if some parts of the data can't be updated.
- */
 module.exports = function (sourceDir, routerId, tag) {
   return deleteOldVersions(sourceDir, routerId, tag)
 }
