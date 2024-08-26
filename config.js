@@ -66,7 +66,7 @@ const routers = {
       mapSrc('PohjolanMatka', 'https://minfoapi.matkahuolto.fi/gtfs/458/gtfs.zip', true),
       // mapSrc('Korsisaari','https://minfoapi.matkahuolto.fi/gtfs/036/gtfs.zip', true)
     ],
-    osm: ['finland', 'estonia']
+    osm: ['finland']
   },
 
   waltti: {
