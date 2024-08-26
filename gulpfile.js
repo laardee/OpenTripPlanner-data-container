@@ -17,6 +17,8 @@ const { buildOTPGraphTask } = require('./task/BuildOTPGraph')
 const { renameGTFSFile } = require('./task/GTFSRename')
 const { replaceGTFSFilesTask } = require('./task/GTFSReplace')
 const { extractFromZip, addToZip } = require('./task/ZipTask')
+const patchDeploymentFiles = require('./task/PatchDeploymentFiles')
+const storageCleanup = require('./task/StorageCleanup')
 
 const seedSourceDir = `${config.dataDir}/router-${config.router.id}` // e.g. data/router-hsl
 
@@ -163,18 +165,23 @@ gulp.task('dem:seed', gulp.series('dem:del',
 gulp.task('seed:cleanup', () => del([seedSourceDir, `${config.dataDir}/*.zip`]))
 
 /**
- * Seed DEM, GTFS & OSM data with data from previous data-containes to allow
+ * Seed DEM, GTFS & OSM data with data from a previous build to allow
  * continuous flow of data into production when one or more updated data files
- * are broken.
+ * are broken. The data is loaded from a storage that should persist between builds.
  */
-gulp.task('seed', gulp.series(seed, 'dem:seed', 'osm:seed', 'gtfs:seed', 'seed:cleanup'))
+gulp.task('seed', gulp.series(() => seed(config.storageDir, config.dataDir, config.router.id, process.env.SEED_TAG), 'dem:seed', 'osm:seed', 'gtfs:seed', 'seed:cleanup'))
 
 gulp.task('router:del', () => del(`${config.dataDir}/build`))
 
 gulp.task('router:copy', gulp.series('router:del',
   () => prepareRouterData(config.router).pipe(gulp.dest(`${config.dataDir}/build/${config.router.id}`))))
 
-gulp.task('router:buildGraph', gulp.series('router:copy', () => {
-  gulp.src(['otp-data-container/*', 'otp-data-container/.dockerignore']).pipe(gulp.dest(`${config.dataDir}/build/${config.router.id}`))
-  return buildOTPGraphTask(config.router)
-}))
+gulp.task('router:buildGraph', gulp.series('router:copy', () => buildOTPGraphTask(config.router)))
+
+gulp.task('router:store', () =>
+  gulp.src(`${config.dataDir}/build/${config.router.id}/**/*`).pipe(gulp.dest(`${config.storageDir}/${global.storageDirName}/`))
+)
+
+gulp.task('deploy:prepare', () => patchDeploymentFiles())
+
+gulp.task('storage:cleanup', () => storageCleanup(config.storageDir, config.router.id, process.env.SEED_TAG))

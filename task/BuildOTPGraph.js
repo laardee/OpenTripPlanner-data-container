@@ -1,9 +1,11 @@
 const fs = require('fs')
 const { exec, execSync } = require('child_process')
+const del = require('del')
 const { zipWithGlob, otpMatching, postSlackMessage } = require('../util')
 const { dataDir, constants } = require('../config.js')
 const graphBuildTag = process.env.OTP_TAG || 'v2'
 const JAVA_OPTS = process.env.JAVA_OPTS || '-Xmx12g'
+const dockerImage = `hsldevcom/opentripplanner:${graphBuildTag}`
 
 const buildGraph = function (router) {
   const lastLog = []
@@ -14,11 +16,11 @@ const buildGraph = function (router) {
     }
   }
   return new Promise((resolve, reject) => {
-    const version = execSync(`docker pull hsldevcom/opentripplanner:${graphBuildTag};docker run --rm --entrypoint /bin/bash hsldevcom/opentripplanner:${graphBuildTag}  -c "java -jar otp-shaded.jar --version"`)
+    const version = execSync(`docker pull ${dockerImage};docker run --rm ${dockerImage} --version`)
     const commit = version.toString().match(/commit: ([0-9a-f]+)/)[1]
 
-    const buildGraph = exec(`docker run -v ${dataDir}/build:/opt/opentripplanner/graphs --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/opt/opentripplanner/logback-include-extensions.xml -e ROUTER_NAME=${process.env.ROUTER_NAME} --rm --entrypoint /bin/bash hsldevcom/opentripplanner:${graphBuildTag}  -c "java ${JAVA_OPTS} -jar otp-shaded.jar --build --save ./graphs/${router.id}"`, { maxBuffer: constants.BUFFER_SIZE })
-    // const buildGraph = exec('ls -la');
+    const command = `docker run -e JAVA_OPTS="${JAVA_OPTS}" -v ${dataDir}/build/${router.id}:/var/opentripplanner --mount type=bind,source=${dataDir}/../logback-include-extensions.xml,target=/logback-include-extensions.xml ${dockerImage} --build --save`
+    const buildGraph = exec(command, { maxBuffer: constants.BUFFER_SIZE })
     const buildLog = fs.openSync(`${dataDir}/build/${router.id}/build.log`, 'w+')
 
     buildGraph.stdout.on('data', function (data) {
@@ -97,5 +99,6 @@ module.exports = {
   buildOTPGraphTask: router => buildGraph(router)
     .then(resp => packData(resp.commit, resp.router))
     .then(() => otpMatching(`${dataDir}/build/${router.id}`))
+    .then(() => del(`${dataDir}/build/${router.id}/taggedStops.log`))
     .then(() => process.stdout.write('Graph build SUCCESS\n'))
 }

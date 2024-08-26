@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { execSync } = require('child_process')
 const through = require('through2')
 const JSZip = require('jszip')
 const { parseId } = require('../util')
@@ -66,12 +67,23 @@ function extractFiles (zipName, filesToExtract, path, cb) {
   })
 }
 
+/**
+ * Extracts files from a zip archive and saves them to given path
+ * @param {string} zipPath - zip file name
+ * @param {string} destinationPath - The path to the data directory where files are put
+ */
+function extractAllFiles (zipPath, destinationPath) {
+  execSync(`unzip -o ${zipPath} -d ${destinationPath}`)
+  process.stdout.write(`Unzipped ${zipPath} to ${destinationPath}\n`)
+}
+
 function tmpPath (fileName) {
   const id = parseId(fileName)
   return `${dataDir}/tmp/${id}`
 }
 
 module.exports = {
+  extractAllFiles,
   extractFromZip: names => {
     if (!names?.length) {
       return through.obj(function (file, encoding, callback) {

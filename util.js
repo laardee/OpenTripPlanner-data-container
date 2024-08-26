@@ -135,6 +135,15 @@ const parseId = function (gtfsFile) {
   return fileName.substring(0, fileName.indexOf('-gtfs'))
 }
 
+/*
+ * Directory names follow ISO 8601 format without milliseconds and
+ * with ':' replaced with '.'. Returns null if date can't be parsed.
+ */
+function dirNameToDate (dirName) {
+  const date = new Date(dirName.replace(/\./g, ':'))
+  return date instanceof Date && !isNaN(date) ? date : null
+}
+
 module.exports = {
   zipDir: (zipFile, dir, cb) => {
     zipWithGlob(zipFile, [`${dir}/*`], undefined, cb)
@@ -143,5 +152,6 @@ module.exports = {
   postSlackMessage,
   updateSlackMessage,
   otpMatching,
-  parseId
+  parseId,
+  dirNameToDate
 }

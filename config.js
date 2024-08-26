@@ -120,7 +120,7 @@ const routers = {
     src: [
       mapSrc('kela', 'https://koontikartta.navici.com/tiedostot/gtfs_kela.zip'),
       mapSrc('matkahuolto', mhAddress, false, ['kela/gtfs-rules/matkahuolto.rule'], { 'transfers.txt': null }),
-      mapSrc('lansilinjat', 'https://lansilinjat.fi/wp-content/uploads/GTFS-Lansilinjat.zip') 
+      mapSrc('lansilinjat', 'https://lansilinjat.fi/wp-content/uploads/GTFS-Lansilinjat.zip')
     ],
     osm: ['finland']
   }
@@ -192,6 +192,7 @@ module.exports = {
   dem: router.dem ? [{ id: router.dem, url: dem[router.dem] }] : null, // currently only one DEM file is used
   dataToolImage: `hsldevcom/otp-data-tools:${process.env.TOOLS_TAG || 'v3'}`,
   dataDir: `${process.cwd()}/data`,
+  storageDir: `${process.cwd()}/storage`,
   constants,
   passOBAfilter
 }

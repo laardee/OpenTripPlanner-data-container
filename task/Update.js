@@ -1,5 +1,6 @@
 /*
-Executes gulp tasks which download new data, builds and tests a new graph and deploys a data container containing the results.
+Executes gulp tasks which download new data, builds and tests a new graph, saves it in storage and deploys
+new opentripplanner-data-server and opentripplanner versions that use that data.
 Data errors are detected and tolerated to a certain limit thanks to fallback mechanism to older data.
 Unexpected code execution errors and failures in graph build abort the data loading.
 */
@@ -17,6 +18,7 @@ const start = promisify((task, cb) => gulp.series(task)(cb))
 
 async function update () {
   if (!process.env.NOSEED) {
+    process.stdout.write('Starting seeding\n')
     await start('seed')
     process.stdout.write('Seeded\n')
   }
@@ -53,13 +55,10 @@ async function update () {
     process.stdout.write('Build routing graph\n')
     await start('router:buildGraph')
 
-    process.stdout.write('Build docker image\n')
-    execFileSync('./build.sh', [name], { stdio: [0, 1, 2] })
-
     if (process.env.SKIPPED_SITES === 'all') {
       process.stdout.write('Skipping all tests')
     } else {
-      process.stdout.write('Test docker image\n')
+      process.stdout.write('Test the newly built graph with OTPQA\n')
       execFileSync('./test.sh', [], { stdio: [0, 1, 2] })
     }
 
@@ -82,12 +81,29 @@ async function update () {
       // rebuild the graph
       process.stdout.write('Rebuild graph using fallback data\n')
       await start('router:buildGraph')
-
-      process.stdout.write('Rebuild docker image\n')
-      execFileSync('./build.sh', [name])
     }
-    process.stdout.write('Deploy docker image\n')
-    execFileSync('./deploy.sh', [name], { stdio: [0, 1, 2] })
+
+    // Docker tags don't work with ':' and file names are also prettier without them. We also need to
+    // remove milliseconds because they are not relevant and make converting string back to ISO format
+    // more difficult.
+    const date = new Date().toISOString().slice(0, -5).concat('Z').replace(/:/g, '.')
+
+    global.storageDirName = `${process.env.DOCKER_TAG}/${date}/${name}`
+
+    process.stdout.write('Uploading data to storage\n')
+    await start('router:store')
+
+    process.stdout.write(`Patch new storage location ${global.storageDirName} to configs\n`)
+    await start('deploy:prepare')
+
+    process.stdout.write('Deploy docker images\n')
+    execFileSync('./otp-data-server/deploy.sh', [date], { stdio: [0, 1, 2] })
+    execFileSync('./opentripplanner/deploy-otp.sh', [date], { stdio: [0, 1, 2] })
+
+    if (!process.env.NOCLEANUP) {
+      process.stdout.write('Remove oldest data versions from storage\n')
+      await start('storage:cleanup')
+    }
 
     if (global.hasFailures) {
       updateSlackMessage(`${name} data updated, but partially falling back to older data :boom:`)
