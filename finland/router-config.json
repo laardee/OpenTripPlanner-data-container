@@ -526,6 +526,14 @@
       "backwardsDelayPropagationType": "ALWAYS"
     },
     {
+      "id": "salo-alerts",
+      "type": "real-time-alerts",
+      "frequency": "30s",
+      "url": "http://digitransit-proxy:8080/out/paikku.mattersoft.fi/api/gtfsrealtime/v1.0/feed/servicealert",
+      "feedId": "Salo",
+      "fuzzyTripMatching": false
+    },
+    {
       "id": "lappeenranta-bike-rental",
       "type": "vehicle-rental",
       "sourceType": "gbfs",
