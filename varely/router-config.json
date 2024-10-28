@@ -46,15 +46,12 @@
   "transit": {
     "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h" ],
     "dynamicSearchWindow" : {
-      "maxWindow" : "24h"
-    },
-    "maxNumberOfTransfers" : 12,
-    "dynamicSearchWindow" : {
       "minTransitTimeCoefficient" : 2.5,
       "minWaitTimeCoefficient": 0.5,
       "minWindow" : "1h",
       "maxWindow" : "24h"
     },
+    "maxNumberOfTransfers" : 12,
     "transferCacheRequests": [
       {
         "modes": "WALK",
