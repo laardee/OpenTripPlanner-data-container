@@ -23,7 +23,7 @@ function findLatestZip (sourceDir, routerId, tag) {
       latestDirName = file
     }
   })
-  return `${basePath}/${latestDirName}/${routerId}/router-${routerId}.zip`
+  return `${basePath}/${latestDirName??''}/${routerId}/router-${routerId}.zip`
 }
 
 /**
