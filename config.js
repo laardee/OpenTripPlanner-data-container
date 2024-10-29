@@ -64,7 +64,7 @@ const routers = {
       mapSrc('VARELY', 'http://digitransit-proxy:8080/out/varelyadmin.mattersoft.fi/feeds/102.zip', false),
       mapSrc('Harma', 'https://harmanliikenne.bussikaista.fi/sites/harma/files/gtfs/export/latest.zip', true),
       mapSrc('PohjolanMatka', 'https://minfoapi.matkahuolto.fi/gtfs/458/gtfs.zip', true),
-      // mapSrc('Korsisaari','https://minfoapi.matkahuolto.fi/gtfs/036/gtfs.zip', true)
+      mapSrc('Korsisaari','https://minfoapi.matkahuolto.fi/gtfs/036/gtfs.zip', true)
     ],
     osm: ['finland', 'estonia']
   },
