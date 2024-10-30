@@ -1,9 +1,7 @@
 {
   "routingDefaults": {
-    "searchWindow": "1h",
     "transferSlack": "1m30s",
     "waitReluctance": 0.95,
-    "elevatorBoardTime": 60,
     "bicycle": {
       "boardCost": 120,
       "reluctance": 1.7,
@@ -22,6 +20,7 @@
     "accessEgress": {
       "maxDuration": "35m"
     },
+    "elevatorBoardTime": 60,
     "maxDirectStreetDuration": "90m",
     "maxJourneyDuration": "12h",
     "streetRoutingTimeout": "6s",
@@ -85,10 +84,10 @@
     }
   },
   "transit" : {
-    "pagingSearchWindowAdjustments": [ "8h", "2h", "1h", "1h", "1h" ],
-    "dynamicSearchWindow" : {
-      "maxWindow" : "14h"
-    },
+     "dynamicSearchWindow" : {
+       "maxWindow" : "16h"
+     },
+    "pagingSearchWindowAdjustments": [ "8h", "2h", "2h", "2h", "2h"],
     "transferCacheRequests": [
       {
         "modes": "WALK",
