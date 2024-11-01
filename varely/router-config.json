@@ -151,6 +151,40 @@
       "url": "http://digitransit-proxy:8080/out/data.foli.fi/gtfs-rt/reittiopas",
       "feedId": "FOLI",
       "fuzzyTripMatching": false
+    },
+    {
+      "id": "pori-trip-updates",
+      "type": "stop-time-updater",
+      "frequency": "60s",
+      "url": "http://digitransit-proxy:8080/out/pjl.mattersoft.fi/api/gtfsrealtime/v1.0/feed/tripupdate",
+      "feedId": "Pori",
+      "fuzzyTripMatching": false,
+      "backwardsDelayPropagationType": "ALWAYS"
+    },
+    {
+      "id": "pori-alerts",
+      "type": "real-time-alerts",
+      "frequency": "30s",
+      "url": "http://digitransit-proxy:8080/out/pjl.mattersoft.fi/api/gtfsrealtime/v1.0/feed/servicealert",
+      "feedId": "Pori",
+      "fuzzyTripMatching": false
+    },
+    {
+      "id": "salo-trip-updates",
+      "type": "stop-time-updater",
+      "frequency": "60s",
+      "url": "http://digitransit-proxy:8080/out/paikku.mattersoft.fi/api/gtfsrealtime/v1.0/feed/tripupdate",
+      "feedId": "Salo",
+      "fuzzyTripMatching": false,
+      "backwardsDelayPropagationType": "ALWAYS"
+    },
+    {
+      "id": "salo-alerts",
+      "type": "real-time-alerts",
+      "frequency": "30s",
+      "url": "http://digitransit-proxy:8080/out/paikku.mattersoft.fi/api/gtfsrealtime/v1.0/feed/servicealert",
+      "feedId": "Salo",
+      "fuzzyTripMatching": false
     }
   ]
 }
