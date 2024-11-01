@@ -1,0 +1,2 @@
+# map red route color to default color
+{"op":"update", "match":{"file":"routes.txt", "route_color":"b02424"}, "update":{"route_color":""}}
