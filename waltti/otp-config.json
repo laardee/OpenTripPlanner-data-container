@@ -10,7 +10,6 @@
     "FloatingBike": false,
     "ActuatorAPI": true,
     "AsyncGraphQLFetchers": false,
-    "GtfsGraphQlApiRentalStationFuzzyMatching": true,
     "Co2Emissions": true
   }
 }
