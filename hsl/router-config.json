@@ -1,6 +1,5 @@
 {
   "routingDefaults": {
-    "maxSearchWindow" : "14h",
     "transferSlack": "1m30s",
     "waitReluctance": 0.95,
     "bicycle": {
@@ -85,6 +84,7 @@
     }
   },
   "transit" : {
+    "maxSearchWindow" : "14h",
     "pagingSearchWindowAdjustments": [ "8h", "2h", "2h", "2h", "2h"],
     "transferCacheRequests": [
       {
