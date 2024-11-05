@@ -44,6 +44,9 @@
     "intersectionTraversalModel": "CONSTANT"
   },
   "transit": {
+    "dynamicSearchWindow" : {
+      "minWindow" : "2h"
+    },
     "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h" ],
     "transferCacheRequests": [
       {

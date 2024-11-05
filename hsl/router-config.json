@@ -84,8 +84,11 @@
     }
   },
   "transit" : {
-    "maxSearchWindow" : "14h",
+    "maxSearchWindow" : "8h",
     "pagingSearchWindowAdjustments": [ "8h", "2h", "2h", "2h", "2h"],
+    "dynamicSearchWindow" : {
+      "minWindow" : "1h"
+    },
     "transferCacheRequests": [
       {
         "modes": "WALK",
