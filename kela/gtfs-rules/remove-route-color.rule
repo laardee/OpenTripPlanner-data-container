@@ -1,0 +1,2 @@
+# remove route_color field if it exists
+{"op":"update", "match":{"file":"routes.txt"}, "update":{"route_color":"s/.*//"}}
