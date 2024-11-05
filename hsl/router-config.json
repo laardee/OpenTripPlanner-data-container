@@ -1,9 +1,7 @@
 {
   "routingDefaults": {
-    "searchWindow": "1h",
     "transferSlack": "1m30s",
     "waitReluctance": 0.95,
-    "elevatorBoardTime": 60,
     "bicycle": {
       "boardCost": 120,
       "reluctance": 1.7,
@@ -22,6 +20,7 @@
     "accessEgress": {
       "maxDuration": "35m"
     },
+    "elevatorBoardTime": 60,
     "maxDirectStreetDuration": "90m",
     "maxJourneyDuration": "12h",
     "streetRoutingTimeout": "6s",
@@ -85,9 +84,10 @@
     }
   },
   "transit" : {
-    "pagingSearchWindowAdjustments": [ "8h", "2h", "1h", "1h", "1h" ],
+    "maxSearchWindow" : "8h",
+    "pagingSearchWindowAdjustments": [ "8h", "2h", "2h", "2h", "2h"],
     "dynamicSearchWindow" : {
-      "maxWindow" : "14h"
+      "minWindow" : "1h"
     },
     "transferCacheRequests": [
       {
@@ -195,15 +195,6 @@
         "name": "realtimeRentalStations",
         "type": "VehicleRentalStation",
         "mapper": "DigitransitRealtime",
-        "maxZoom": 20,
-        "minZoom": 5,
-        "cacheMaxSeconds": 45,
-        "expansionFactor": 0.25
-      },
-      {
-        "name": "rentalVehicles",
-        "type": "VehicleRentalVehicle",
-        "mapper": "Digitransit",
         "maxZoom": 20,
         "minZoom": 5,
         "cacheMaxSeconds": 45,

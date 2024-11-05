@@ -1,6 +1,5 @@
 {
   "routingDefaults": {
-    "searchWindow": "2h",
     "transferSlack": "1m30s",
     "waitReluctance": 0.99,
     "elevatorBoardTime": 60,
@@ -45,10 +44,10 @@
     "intersectionTraversalModel": "CONSTANT"
   },
   "transit": {
-    "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h" ],
     "dynamicSearchWindow" : {
-      "maxWindow" : "24h"
+      "minWindow" : "2h"
     },
+    "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h" ],
     "transferCacheRequests": [
       {
         "modes": "WALK",

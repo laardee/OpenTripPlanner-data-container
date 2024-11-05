@@ -1,7 +1,6 @@
 {
   "otpFeatures": {
     "GtfsGraphQlApi": true,
-    "LegacyRestApi": true,
     "DebugUi": true,
     "APIServerInfo": true,
     "APIUpdaterStatus": false,
@@ -10,7 +9,6 @@
     "FloatingBike": false,
     "ActuatorAPI": true,
     "AsyncGraphQLFetchers": false,
-    "GtfsGraphQlApiRentalStationFuzzyMatching": true,
     "Co2Emissions": true
   }
 }

@@ -1,6 +1,5 @@
 {
   "otpFeatures": {
-      "LegacyRestApi": true,
       "GtfsGraphQlApi": true,
       "DebugUi": true,
       "APIServerInfo": true,
@@ -8,7 +7,6 @@
       "APIBikeRental": false,
       "SandboxAPIMapboxVectorTilesApi": true,
       "ActuatorAPI": true,
-      "AsyncGraphQLFetchers": false,
-      "GtfsGraphQlApiRentalStationFuzzyMatching": true
+      "AsyncGraphQLFetchers": false
   }
 }

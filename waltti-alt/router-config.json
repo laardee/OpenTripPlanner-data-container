@@ -1,6 +1,5 @@
 {
   "routingDefaults": {
-    "searchWindow": "3h",
     "transferSlack": "1m30s",
     "waitReluctance": 0.95,
     "elevatorBoardTime": 60,
@@ -46,15 +45,9 @@
   "transit": {
     "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h"],
     "dynamicSearchWindow" : {
-      "maxWindow" : "24h"
+      "minWindow" : "3h"
     },
     "maxNumberOfTransfers" : 12,
-    "dynamicSearchWindow" : {
-      "minTransitTimeCoefficient" : 2.5,
-      "minWaitTimeCoefficient": 0.5,
-      "minWindow" : "1h",
-      "maxWindow" : "24h"
-    },
     "transferCacheRequests": [
       {
         "modes": "WALK",
@@ -107,24 +100,6 @@
         "maxZoom": 20,
         "minZoom": 5,
         "cacheMaxSeconds": 43200
-      },
-      {
-        "name": "rentalStations",
-        "type": "VehicleRentalStation",
-        "mapper": "Digitransit",
-        "maxZoom": 20,
-        "minZoom": 5,
-        "cacheMaxSeconds": 43200,
-        "expansionFactor": 0.25
-      },
-      {
-        "name": "realtimeRentalStations",
-        "type": "VehicleRentalStation",
-        "mapper": "DigitransitRealtime",
-        "maxZoom": 20,
-        "minZoom": 5,
-        "cacheMaxSeconds": 45,
-        "expansionFactor": 0.25
       }
     ]
   },
