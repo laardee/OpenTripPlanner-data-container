@@ -1,7 +1,6 @@
 {
   "otpFeatures": {
       "GtfsGraphQlApi": true,
-      "LegacyRestApi": true,
       "DebugUi": true,
       "APIServerInfo": true,
       "APIUpdaterStatus": false,
