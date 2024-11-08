@@ -266,7 +266,8 @@
       "frequency": "30s",
       "network": "vantaa",
       "url": "http://digitransit-proxy:8080/out/vantaa-api.giravolta.io/api-opendata/gbfs/2_3/gbfs",
-      "overloadingAllowed": true
+      "overloadingAllowed": true,
+      "allowedRentalType": "stations"
     },
     {
       "id": "hsl-bike-rental",
@@ -295,7 +296,8 @@
       "frequency": "30s",
       "network": "bolt_helsinki",
       "url": "https://mds.bolt.eu/gbfs/2/10/gbfs",
-      "geofencingZones": true
+      "geofencingZones": true,
+      "allowedRentalType": "vehicles"
     }
   ]
 }
