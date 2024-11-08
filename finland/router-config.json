@@ -529,7 +529,8 @@
       "sourceType": "gbfs",
       "frequency": "30s",
       "url": "http://digitransit-proxy:8080/out/stables.donkey.bike/api/public/gbfs/2/donkey_lappeenranta/gbfs.json",
-      "overloadingAllowed": true
+      "overloadingAllowed": true,
+      "allowedRentalType": "stations"
     },
     {
       "id": "kotka-bike-rental",
@@ -537,7 +538,8 @@
       "sourceType": "gbfs",
       "frequency": "30s",
       "url": "http://digitransit-proxy:8080/out/stables.donkey.bike/api/public/gbfs/2/donkey_kotka/gbfs.json",
-      "overloadingAllowed": true
+      "overloadingAllowed": true,
+      "allowedRentalType": "stations"
     },
     {
       "id": "kouvola-bike-rental",
@@ -554,7 +556,9 @@
       "frequency": "60s",
       "network": "freebike_lahti",
       "url": "http://digitransit-proxy:8080/out/tkhslahtistorage.blob.core.windows.net/gbfs/gbfs.json",
-      "overloadingAllowed": true
+      "overloadingAllowed": true,
+      "allowedRentalType": "stations"
+
     },
     {
       "id": "vantaa-bike-rental",
@@ -644,7 +648,8 @@
       "frequency": "30s",
       "network": "bolt_helsinki",
       "url": "https://mds.bolt.eu/gbfs/2/10/gbfs",
-      "geofencingZones": true
+      "geofencingZones": true,
+      "allowedRentalType": "vehicles"
     }
   ]
 }

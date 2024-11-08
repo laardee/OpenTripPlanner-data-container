@@ -295,7 +295,8 @@
       "frequency": "30s",
       "network": "bolt_helsinki",
       "url": "https://mds.bolt.eu/gbfs/2/10/gbfs",
-      "geofencingZones": true
+      "geofencingZones": true,
+      "allowedRentalType": "vehicles"
     }
   ]
 }
