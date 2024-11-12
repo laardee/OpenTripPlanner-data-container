@@ -18,7 +18,7 @@
       "boardCost": 120
     },
     "accessEgress": {
-      "maxDuration": "35m"
+      "maxDuration": "1h"
     },
     "elevatorBoardTime": 60,
     "maxDirectStreetDuration": "90m",
