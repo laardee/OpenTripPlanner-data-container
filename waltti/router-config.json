@@ -45,7 +45,7 @@
   "transit": {
     "pagingSearchWindowAdjustments": ["8h", "4h", "4h", "4h", "4h"],
     "dynamicSearchWindow" : {
-      "minWindow" : "2h"
+      "minWindow" : "1h"
     },
     "maxNumberOfTransfers" : 12,
     "transferCacheRequests": [
@@ -67,6 +67,16 @@
         }
       },
       {
+        "modes": "BICYCLE",
+        "walk": {
+          "speed": 1.2,
+          "reluctance": 1.8
+        },
+        "bicycle": {
+          "speed": 5.55
+        }
+      },
+      {
         "modes": "BICYCLE_RENT",
         "walk": {
           "speed": 1.2,
@@ -81,6 +91,16 @@
         "walk": {
           "speed": 1.67,
           "reluctance": 1.8
+        }
+      },
+      {
+        "modes": "BICYCLE",
+        "walk": {
+          "speed": 1.67,
+          "reluctance": 1.8
+        },
+        "bicycle": {
+          "speed": 5.55
         }
       },
       {
