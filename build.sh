@@ -10,4 +10,4 @@ DOCKER_IMAGE=$ORG/opentripplanner-data-container-$ROUTER_NAME:test
 docker rmi --force $DOCKER_IMAGE &> /dev/null
 cd data/build/$ROUTER_NAME
 echo "Building data-container image..."
-docker build -t $DOCKER_IMAGE -f Dockerfile.data-container .
+docker build --network=host -t $DOCKER_IMAGE -f Dockerfile.data-container .

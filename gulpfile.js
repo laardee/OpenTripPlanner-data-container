@@ -17,6 +17,7 @@ const { buildOTPGraphTask } = require('./task/BuildOTPGraph')
 const { renameGTFSFile } = require('./task/GTFSRename')
 const { replaceGTFSFilesTask } = require('./task/GTFSReplace')
 const { extractFromZip, addToZip } = require('./task/ZipTask')
+const { amendPayiqOperator } = require('./task/Payiq')
 
 const seedSourceDir = `${config.dataDir}/router-${config.router.id}` // e.g. data/router-hsl
 
@@ -106,6 +107,9 @@ gulp.task('gtfs:dl', gulp.series(
 gulp.task('gtfs:id', () => gulp.src(`${idDir}/*`)
   .pipe(setFeedIdTask())
   .pipe(gulp.dest(gtfsDir)))
+
+gulp.task('gtfs:payiq', () => gulp.src(`${gtfsDir}/*`)
+  .pipe(amendPayiqOperator())) // in-place update
 
 // Runs mapFit on gtfs files if fit is enabled, or just moves files to directory 'filter'
 gulp.task('gtfs:fit', config.router.src.some(src => src.fit)
