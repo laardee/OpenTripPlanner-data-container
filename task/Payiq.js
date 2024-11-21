@@ -17,13 +17,28 @@ function setPayIq(file, cb) {
     if (err) {
       return cb(err)
     }
-    console.log(file)
+    console.log(path.parse(file))
+    const gtfsName = path.parse(file).name.replace(/\-gtfs/gi, '');
     const zip = new JSZip()
     zip.loadAsync(data).then(() => {
       const agency = zip.file('agency.txt')
       agency.async('string').then(function (data) {
-        data = data.replace(/http.*?(?=("|,))/gi, 'https://www.payiq.net')
-        createAgency(zip, file, data, (error, data) => {
+        let filteredData = data.replace(/\r/g, '')
+        if (filteredData.charAt(filteredData.length - 1) === '\n') {
+          filteredData = filteredData.slice(0, -1)
+        }
+        if (filteredData.charCodeAt(0) === 0xFEFF) { // remove BOM
+          filteredData = filteredData.substring(1)
+        }
+
+        const json = converter.csv2json(filteredData).map(agency => {
+          return Object.assign({}, agency, {
+            agency_fare_url: `https://www.payiq.net/${gtfsName.toLocaleLowerCase()}#${agency.agency_fare_url}`
+          })
+        })
+        
+        const csv = converter.json2csv(json)
+        createAgency(zip, file, csv, (error, data) => {
           if (error) {
             return cb(error)
           }
