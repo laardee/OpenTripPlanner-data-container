@@ -11,12 +11,16 @@ const fs = require('fs')
 const { postSlackMessage, updateSlackMessage } = require('../util')
 require('../gulpfile')
 const { router } = require('../config')
+const assert = require('assert');
 
 const MAX_GTFS_FALLBACK = 2 // threshold for aborting data loading
 
 const start = promisify((task, cb) => gulp.series(task)(cb))
 
 async function update () {
+  // check environmental variables which needs to be defined
+  assert(process.env.DOCKER_TAG !== undefined, 'DOCKER_TAG must be defined')
+
   if (!process.env.NOSEED) {
     process.stdout.write('Starting seeding\n')
     await start('seed')

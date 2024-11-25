@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 /*
  * id = feedid (String)
  * url = feed url (String)
@@ -21,6 +23,8 @@ if (process.env.MH_BASIC_AUTH) {
 } else {
   mhAddress = 'http://digitransit-proxy:8080/out/minfoapi.matkahuolto.fi/gtfs/kokomaa-fi/gtfs.zip'
 }
+
+assert(process.env.ROUTER_NAME !== undefined, 'ROUTER_NAME must be defined')
 
 const routers = {
   hsl: {
@@ -164,11 +168,13 @@ const routers = {
   }
 }
 
-if (!process.env.ROUTER_NAME || !routers[process.env.ROUTER_NAME]) {
-  process.stdout.write('Invalid ROUTER_NAME variable \n')
+
+const router = routers[process.env.ROUTER_NAME]
+
+if (!router) {
+  process.stdout.write('ROUTER_NAME ' + process.env.ROUTER_NAME + ' not defined in the config \n')
   process.exit(1)
 }
-const router = routers[process.env.ROUTER_NAME]
 
 // EXTRA_SRC format should be {"FOLI": {"url": "https://data.foli.fi/gtfs/gtfs.zip",  "fit": false, "rules": ["waltti/gtfs-rules/waltti.rule"]}}
 // but you can only define, for example, new url and the other key value pairs will remain the same as they are defined in this file.
