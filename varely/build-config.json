@@ -1,7 +1,6 @@
 {
   "dataImportReport": true,
   "areaVisibility": true,
-  "elevationUnitMultiplier": 0.1,
   "maxAreaNodes": 1000,
   "maxTransferDuration": "26m",
   "transitServiceStart": "-P2W",
