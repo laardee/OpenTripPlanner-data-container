@@ -13,7 +13,11 @@ DOCKER_IMAGE=$ORG/$PROJECT
 DOCKER_DATE_IMAGE=$DOCKER_IMAGE:$DOCKER_TAG-$DATE
 DOCKER_IMAGE_TAGGED=$DOCKER_IMAGE:$DOCKER_TAG
 
-docker login -u $DOCKER_USER -p $DOCKER_AUTH
+if [[ -z "${DOCKER_USER}" ]]; then
+  docker login -u $DOCKER_USER -p $DOCKER_AUTH
+else
+  echo "*** DOCKER_USER is not defined. Unable to log in to the registry."
+fi
 
 # remove old version (may be necessary in local use)
 docker rmi --force $DOCKER_IMAGE_TAGGED &> /dev/null
@@ -25,9 +29,13 @@ echo "Building router's opentripplanner image..."
 cd data/build/$ROUTER_NAME
 docker build -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
 
-echo "*** Pushing $DOCKER_IMAGE_TAGGED"
-docker push $DOCKER_IMAGE_TAGGED
-
 docker tag $DOCKER_IMAGE_TAGGED $DOCKER_DATE_IMAGE
-echo "*** Pushing $DOCKER_DATE_IMAGE"
-docker push $DOCKER_DATE_IMAGE
+
+if [[ -z "${DOCKER_USER}" ]]; then
+  echo "*** Pushing $DOCKER_IMAGE_TAGGED"
+  docker push $DOCKER_IMAGE_TAGGED
+  echo "*** Pushing $DOCKER_DATE_IMAGE"
+  docker push $DOCKER_DATE_IMAGE
+else
+  echo "*** Not signed into the registry. Image not pushed."
+fi
