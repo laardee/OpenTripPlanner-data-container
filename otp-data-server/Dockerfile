@@ -1,5 +1,5 @@
 FROM       alpine:latest
-MAINTAINER Digitransit version: 2
+LABEL authors="Digitransit version: 2"
 
 RUN apk add --update --no-cache \
   lighttpd \
