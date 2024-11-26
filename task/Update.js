@@ -11,7 +11,7 @@ const fs = require('fs')
 const { postSlackMessage, updateSlackMessage } = require('../util')
 require('../gulpfile')
 const { router } = require('../config')
-const assert = require('assert');
+const assert = require('assert')
 
 const MAX_GTFS_FALLBACK = 2 // threshold for aborting data loading
 
@@ -59,7 +59,7 @@ async function update () {
     process.stdout.write('Build routing graph\n')
     await start('router:buildGraph')
 
-    if (process.env.SKIPPED_SITES === 'all') {
+    if (process.env.SKIPPED_SITES === 'all' || process.env.SKIP_OTP_TESTS) {
       process.stdout.write('Skipping all tests')
     } else {
       process.stdout.write('Test the newly built graph with OTPQA\n')
