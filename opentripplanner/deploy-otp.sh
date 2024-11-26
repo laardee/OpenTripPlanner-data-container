@@ -27,7 +27,7 @@ echo "Building router's opentripplanner image..."
 # Local file context is not needed
 # https://docs.docker.com/reference/cli/docker/image/build/#build-with--
 cd data/build/$ROUTER_NAME
-docker build -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
+docker build --network=host -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
 
 docker tag $DOCKER_IMAGE_TAGGED $DOCKER_DATE_IMAGE
 
