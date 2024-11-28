@@ -1,4 +1,4 @@
-ARG OTP_TAG
+ARG OTP_TAG="v2"
 FROM hsldevcom/opentripplanner:${OTP_TAG}
 
 ARG OTP_GRAPH_DIR
