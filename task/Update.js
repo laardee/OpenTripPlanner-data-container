@@ -17,7 +17,7 @@ const MAX_GTFS_FALLBACK = 2 // threshold for aborting data loading
 
 const start = promisify((task, cb) => gulp.series(task)(cb))
 
-async function update () {
+async function update() {
   // check environmental variables which needs to be defined
   assert(process.env.DOCKER_TAG !== undefined, 'DOCKER_TAG must be defined')
 
@@ -97,12 +97,19 @@ async function update () {
     process.stdout.write('Uploading data to storage\n')
     await start('router:store')
 
-    process.stdout.write(`Patch new storage location ${global.storageDirName} to configs\n`)
-    await start('deploy:prepare')
 
-    process.stdout.write('Deploy docker images\n')
-    execFileSync('./otp-data-server/deploy.sh', [date], { stdio: [0, 1, 2] })
-    execFileSync('./opentripplanner/deploy-otp.sh', [date], { stdio: [0, 1, 2] })
+    process.stdout.write('Build and deploy Docker images\n')
+    execFileSync('./otp-data-server/deploy.sh', [date], {
+      stdio: [0, 1, 2], env: {
+        OTP_TAG: process.env.OTP_TAG,
+        OTP_GRAPH_DIR: global.storageDirName
+      }
+    })
+    execFileSync('./opentripplanner/deploy-otp.sh', [date], {
+      stdio: [0, 1, 2], env: {
+        OTP_GRAPH_DIR: global.storageDirName
+      }
+    })
 
     if (!process.env.NOCLEANUP) {
       process.stdout.write('Remove oldest data versions from storage\n')
