@@ -105,7 +105,9 @@ async function update() {
         OTP_GRAPH_DIR: global.storageDirName,
         ROUTER_NAME: process.env.ROUTER_NAME,
         ORG: process.env.ORG,
-        DOCKER_TAG: process.env.DOCKER_TAG
+        DOCKER_TAG: process.env.DOCKER_TAG,
+        DOCKER_USER: process.env.DOCKER_USER,
+        DOCKER_AUTH: process.env.DOCKER_AUTH
       }
     })
     execFileSync('./opentripplanner/deploy-otp.sh', [date], {
@@ -113,7 +115,9 @@ async function update() {
         OTP_GRAPH_DIR: global.storageDirName,
         ROUTER_NAME: process.env.ROUTER_NAME,
         ORG: process.env.ORG,
-        DOCKER_TAG: process.env.DOCKER_TAG
+        DOCKER_TAG: process.env.DOCKER_TAG,
+        DOCKER_USER: process.env.DOCKER_USER,
+        DOCKER_AUTH: process.env.DOCKER_AUTH
       }
     })
 
