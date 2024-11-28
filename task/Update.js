@@ -102,12 +102,18 @@ async function update() {
     execFileSync('./otp-data-server/deploy.sh', [date], {
       stdio: [0, 1, 2], env: {
         OTP_TAG: process.env.OTP_TAG,
-        OTP_GRAPH_DIR: global.storageDirName
+        OTP_GRAPH_DIR: global.storageDirName,
+        ROUTER_NAME: process.env.ROUTER_NAME,
+        ORG: process.env.ORG,
+        DOCKER_TAG: process.env.DOCKER_TAG
       }
     })
     execFileSync('./opentripplanner/deploy-otp.sh', [date], {
       stdio: [0, 1, 2], env: {
-        OTP_GRAPH_DIR: global.storageDirName
+        OTP_GRAPH_DIR: global.storageDirName,
+        ROUTER_NAME: process.env.ROUTER_NAME,
+        ORG: process.env.ORG,
+        DOCKER_TAG: process.env.DOCKER_TAG
       }
     })
 
