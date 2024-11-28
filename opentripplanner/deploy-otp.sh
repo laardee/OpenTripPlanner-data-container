@@ -7,11 +7,17 @@ ROUTER_NAME=${ROUTER_NAME:-hsl}
 DATE=$1
 
 ORG=${ORG:-hsldevcom}
-DOCKER_TAG=${OTP_TAG:-v2}-$ROUTER_NAME
+OTP_TAG=${OTP_TAG:-v2}
+DOCKER_TAG=$OTP_TAG-$ROUTER_NAME
 PROJECT=opentripplanner
 DOCKER_IMAGE=$ORG/$PROJECT
 DOCKER_DATE_IMAGE=$DOCKER_IMAGE:$DOCKER_TAG-$DATE
 DOCKER_IMAGE_TAGGED=$DOCKER_IMAGE:$DOCKER_TAG
+
+if [[ -z "${OTP_GRAPH_DIR}" ]]; then
+  echo "*** OTP_GRAPH_DIR is not defined."
+  exit 1
+fi
 
 if [[ -z "${DOCKER_USER}" ]]; then
   echo "*** DOCKER_USER is not defined. Unable to log in to the registry."
@@ -27,7 +33,7 @@ echo "Building router's opentripplanner image..."
 # Local file context is not needed
 # https://docs.docker.com/reference/cli/docker/image/build/#build-with--
 cd data/build/$ROUTER_NAME
-docker build --network=host -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
+docker build --network=host --build-arg OTP_TAG=$OTP_TAG --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
 
 docker tag $DOCKER_IMAGE_TAGGED $DOCKER_DATE_IMAGE
 

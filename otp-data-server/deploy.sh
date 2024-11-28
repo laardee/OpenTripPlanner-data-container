@@ -13,6 +13,11 @@ DOCKER_TAG=${DOCKER_TAG:-v3}
 CONTAINER=opentripplanner-data-server
 DOCKER_IMAGE=$ORG/$CONTAINER
 
+if [[ -z "${OTP_GRAPH_DIR}" ]]; then
+  echo "*** OTP_GRAPH_DIR is not defined."
+  exit 1
+fi
+
 if [[ -z "${DOCKER_USER}" ]]; then
   echo "*** DOCKER_USER is not defined. Unable to log in to the registry."
 else
@@ -22,7 +27,7 @@ fi
 DOCKER_DATE_IMAGE=$DOCKER_IMAGE:$DOCKER_TAG-$ROUTER_NAME-$DATE
 DOCKER_IMAGE_TAGGED=$DOCKER_IMAGE:$DOCKER_TAG-$ROUTER_NAME
 cd otp-data-server
-docker build --network=host -t $DOCKER_DATE_IMAGE .
+docker build --network=host --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_DATE_IMAGE .
 
 docker tag $DOCKER_DATE_IMAGE $DOCKER_IMAGE_TAGGED
 
