@@ -529,6 +529,40 @@
       "frequency": "30s",
       "url": "https://gbfs.urbansharing.com/tampere.onurbansharing.com/gbfs.json",
       "overloadingAllowed": true
+    },
+    {
+      "id": "salo-trip-updates",
+      "type": "stop-time-updater",
+      "frequency": "60s",
+      "url": "http://digitransit-proxy:8080/out/paikku.mattersoft.fi/api/gtfsrealtime/v1.0/feed/tripupdate",
+      "feedId": "Salo",
+      "fuzzyTripMatching": false,
+      "backwardsDelayPropagationType": "ALWAYS"
+    },
+    {
+      "id": "salo-alerts",
+      "type": "real-time-alerts",
+      "frequency": "30s",
+      "url": "http://digitransit-proxy:8080/out/paikku.mattersoft.fi/api/gtfsrealtime/v1.0/feed/servicealert",
+      "feedId": "Salo",
+      "fuzzyTripMatching": false
+    },
+    {
+      "id": "kajaani-trip-updates",
+      "type": "stop-time-updater",
+      "frequency": "60s",
+      "url": "http://digitransit-proxy:8080/out/kajaani.mattersoft.fi/api/gtfsrealtime/v1.0/feed/tripupdate",
+      "feedId": "Kajaani",
+      "fuzzyTripMatching": false,
+      "backwardsDelayPropagationType": "ALWAYS"
+    },
+    {
+      "id": "kajaani-alerts",
+      "type": "real-time-alerts",
+      "frequency": "30s",
+      "url": "http://digitransit-proxy:8080/out/kajaani.mattersoft.fi/api/gtfsrealtime/v1.0/feed/servicealert",
+      "feedId": "Kajaani",
+      "fuzzyTripMatching": false
     }
   ]
 }

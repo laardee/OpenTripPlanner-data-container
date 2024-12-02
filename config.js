@@ -92,6 +92,8 @@ const routers = {
       mapSrc('FUNI', 'https://foligtfs.blob.core.windows.net/routeplanner/gtfs-foli-ff.zip', true),
       mapSrc('Raasepori', 'https://tvv.fra1.digitaloceanspaces.com/232.zip', true),
       mapSrc('KotkaLautat', 'https://koontikartta.navici.com/tiedostot/gtfs_lautat.zip', true, ['waltti/gtfs-rules/only-kotka-ferries.rule']),
+      mapSrc('Salo', 'https://tvv.fra1.digitaloceanspaces.com/239.zip', true),
+      mapSrc('Kajaani', 'https://tvv.fra1.digitaloceanspaces.com/211.zip', true),
     ],
     osm: ['finland'],
     dem: 'waltti'
@@ -100,8 +102,7 @@ const routers = {
   'waltti-alt': {
     id: 'waltti-alt',
     src: [
-      mapSrc('Salo', 'https://tvv.fra1.digitaloceanspaces.com/239.zip', true),
-      mapSrc('Kajaani', 'https://tvv.fra1.digitaloceanspaces.com/211.zip', true)
+      mapSrc('WalttiTest', 'http://digitransit-proxy:8080/out/lmjadmin.mattersoft.fi/feeds/229.zip', true),
     ],
     osm: ['finland']
   },
