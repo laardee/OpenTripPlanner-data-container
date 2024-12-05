@@ -38,7 +38,7 @@ const routers = {
     id: 'finland',
     src: [
       mapSrc('HSL', 'https://infopalvelut.storage.hsldev.com/gtfs/hsl.zip', false, ['finland/gtfs-rules/hsl-no-trains.rule'], { 'trips.txt': 'trips2.txt' }),
-      mapSrc('MATKA', 'https://koontikartta.navici.com/tiedostot/gtfs_digitransit.zip', true, ['finland/gtfs-rules/matka-cleaned.rule']),
+      mapSrc('MATKA', 'https://mobility.mobility-database.fintraffic.fi/static/digitransit_new.zip', true),
       mapSrc('tampere', 'https://ekstrat.tampere.fi/ekstrat/ptdata/tamperefeed_deprecated.zip'),
       mapSrc('LINKKI', 'https://tvv.fra1.digitaloceanspaces.com/209.zip', true),
       mapSrc('OULU', 'https://tvv.fra1.digitaloceanspaces.com/229.zip'),
