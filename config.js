@@ -95,7 +95,7 @@ const routers = {
       mapSrc('Salo', 'https://tvv.fra1.digitaloceanspaces.com/239.zip', true),
       mapSrc('Kajaani', 'https://tvv.fra1.digitaloceanspaces.com/211.zip', true),
     ],
-    osm: ['finland'],
+    osm: ['kajaani', 'oulu', 'pori', 'rovaniemi', 'southeastFinland', 'southwestFinland', 'vaasa'],
     dem: 'waltti'
   },
 
@@ -104,7 +104,7 @@ const routers = {
     src: [
       mapSrc('WalttiTest', 'http://digitransit-proxy:8080/out/lmjadmin.mattersoft.fi/feeds/229.zip', true),
     ],
-    osm: ['finland']
+    osm: ['oulu']
   },
 
   varely: {
@@ -116,7 +116,7 @@ const routers = {
       mapSrc('Salo', 'https://tvv.fra1.digitaloceanspaces.com/239.zip', true),
       mapSrc('Pori', 'https://tvv.fra1.digitaloceanspaces.com/231.zip', true)
     ],
-    osm: ['finland']
+    osm: ['varely']
   },
 
   kela: {
@@ -175,9 +175,17 @@ router.src.forEach(src => { gtfsMap[src.id] = src })
 const extraOSM = process.env.EXTRA_OSM !== undefined ? JSON.parse(process.env.EXTRA_OSM) : {}
 
 const osm = {
+  estonia: 'https://download.geofabrik.de/europe/estonia-latest.osm.pbf',
   finland: 'https://karttapalvelu.storage.hsldev.com/finland.osm/finland.osm.pbf',
   hsl: 'https://karttapalvelu.storage.hsldev.com/hsl.osm/hsl.osm.pbf',
-  estonia: 'https://download.geofabrik.de/europe/estonia-latest.osm.pbf',
+  kajaani: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/kajaani.osm.pbf',
+  oulu: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/oulu.osm.pbf',
+  pori: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/pori.osm.pbf',
+  rovaniemi: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/rovaniemi.osm.pbf',
+  southeastFinland: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/southeast_finland.osm.pbf',
+  southwestFinland: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/southwest_finland.osm.pbf',
+  vaasa: 'https://karttapalvelu.storage.hsldev.com/waltti.osm/vaasa.osm.pbf',
+  varely: 'https://karttapalvelu.storage.hsldev.com/finland.osm/varely.osm.pbf',
   ...extraOSM
 }
 
