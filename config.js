@@ -126,7 +126,6 @@ const routers = {
       mapSrc('kela_varely', 'https://mobility.mobility-database.fintraffic.fi/static/Kela_varely.zip'),
       mapSrc('kela_waltti', 'https://mobility.mobility-database.fintraffic.fi/static/kela_waltti.zip'),
       mapSrc('matkahuolto', mhAddress, false, ['kela/gtfs-rules/matkahuolto.rule'], { 'transfers.txt': null }),
-      mapSrc('lansilinjat', 'https://lansilinjat.fi/wp-content/uploads/GTFS-Lansilinjat.zip', false, ['kela/gtfs-rules/remove-route-color.rule'])
     ],
     osm: ['finland']
   }
