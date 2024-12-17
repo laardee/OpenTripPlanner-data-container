@@ -27,13 +27,15 @@ async function update() {
     process.stdout.write('Seeded\n')
   }
 
-  // we track data rejections using this global variable
-  global.hasFailures = false
-  await start('dem:update')
-  if (global.hasFailures) {
-    postSlackMessage('DEM update failed, using previous version :boom:')
+  if (!process.env.NODEM) {
+    // we track data rejections using this global variable
+    global.hasFailures = false
+    await start('dem:update')
+    if (global.hasFailures) {
+      postSlackMessage('DEM update failed, using previous version :boom:')
+    }
   }
-
+  
   // OSM update is more complicated. Download often fails, so there is a retry loop,
   //  which breaks when a big enough file gets loaded
   global.blobSizeOk = false // ugly hack but gulp does not return any values from tasks
