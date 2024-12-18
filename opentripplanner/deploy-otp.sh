@@ -3,6 +3,8 @@
 
 set -e
 
+cd "$(dirname "$0")"
+
 ROUTER_NAME=${ROUTER_NAME:-hsl}
 DATE=$1
 
@@ -30,10 +32,8 @@ docker rmi --force $DOCKER_IMAGE_TAGGED &> /dev/null
 docker rmi --force $DOCKER_DATE_IMAGE &> /dev/null
 
 echo "Building router's opentripplanner image..."
-# Local file context is not needed
-# https://docs.docker.com/reference/cli/docker/image/build/#build-with--
-cd data/build/$ROUTER_NAME
-docker build --network=host --build-arg OTP_TAG=$OTP_TAG --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_IMAGE_TAGGED - < ../../../opentripplanner/Dockerfile
+
+docker build --progress=plain --network=host --build-arg OTP_TAG=$OTP_TAG --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_IMAGE_TAGGED . # - < ../../../opentripplanner/Dockerfile
 
 docker tag $DOCKER_IMAGE_TAGGED $DOCKER_DATE_IMAGE
 

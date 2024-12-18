@@ -5,6 +5,8 @@
 #DOCKER_AUTH
 set -e
 
+cd "$(dirname "$0")"
+
 ROUTER_NAME=${ROUTER_NAME:-hsl}
 DATE=$1
 
@@ -26,7 +28,7 @@ fi
 
 DOCKER_DATE_IMAGE=$DOCKER_IMAGE:$DOCKER_TAG-$ROUTER_NAME-$DATE
 DOCKER_IMAGE_TAGGED=$DOCKER_IMAGE:$DOCKER_TAG-$ROUTER_NAME
-cd otp-data-server
+
 docker build --network=host --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_DATE_IMAGE .
 
 docker tag $DOCKER_DATE_IMAGE $DOCKER_IMAGE_TAGGED
