@@ -33,7 +33,7 @@ docker rmi --force $DOCKER_DATE_IMAGE &> /dev/null
 
 echo "Building router's opentripplanner image..."
 
-docker build --progress=plain --network=host --build-arg OTP_TAG=$OTP_TAG --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_IMAGE_TAGGED . # - < ../../../opentripplanner/Dockerfile
+docker build --progress=plain --network=host --build-arg OTP_TAG=$OTP_TAG --build-arg OTP_GRAPH_DIR=$OTP_GRAPH_DIR -t $DOCKER_IMAGE_TAGGED .
 
 docker tag $DOCKER_IMAGE_TAGGED $DOCKER_DATE_IMAGE
 
