@@ -1,4 +1,4 @@
-const { mapSrc } = require('../task/Common')
+const { mapSrc } = require('../util')
 
 module.exports = {
   id: 'varely',
